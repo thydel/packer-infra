@@ -5,8 +5,9 @@ _:
     &shell_provisioner_options
     type: shell
     execute_command: echo '{{user `ssh_password`}}' | {{ .Vars }} sudo -ES '{{ .Path }}'
+
   -
-    &boot
+    &boot_command
     - '<esc><wait>'
     - 'install '
     - 'auto=true '
@@ -15,12 +16,20 @@ _:
     - 'domain={{ user `domain` }} '
     - '<enter>'
   -
+    &boot_options
+    boot_wait: 5s
+    boot_command: *boot_command
+
+  -
+    - &ssh_timeout_std 15m
+    - &ssh_timeout_dbg 60m
+  -
     &communicator_options
     ssh_password: '{{ user `ssh_password` }}'
-    ssh_port: 22
     ssh_username: '{{ user `ssh_username` }}'
-    ssh_wait_timeout: 10000s
-    
+    ssh_port: 22
+    ssh_timeout: *ssh_timeout_dbg
+
   -
     &vmware_builder_options
     type: vmware-iso
@@ -58,17 +67,13 @@ variables:
   disk_size: '16384'
 
   output_directory: /data/packer
-
-  language: en
-  locale: en_CA.UTF-8
   
 builders:
   - <<: *vmware_builder_options
     <<: *communicator_options
     <<: *vnc_options
+    <<: *boot_options
     name: '{{ user `name` }}'
-    boot_command: *boot
-    boot_wait: 5s
     disk_size: '{{user `disk_size`}}'
     headless: True
     http_directory: '{{ user `http_directory` }}'
@@ -78,15 +83,13 @@ builders:
     iso_checksum_type: '{{ user `iso_checksum_type` }}'
     iso_checksum_url: '{{ user `iso_checksum_url` }}'
     output_directory: '{{ user `output_directory` }}/{{ user `name` }}'
-    shutdown_command: echo echo '{{ user `ssh_password` }}' | sudo -ES poweroff
+    shutdown_command: echo '{{ user `ssh_password` }}' | sudo -S poweroff
 
-_provisioners:
+provisioners:
   - <<: *shell_provisioner_options
-    script: scripts/ansible.sh
-  - <<: *shell_provisioner_options
-    script: scripts/setup.sh
-  - type: ansible-local
-    playbook_file: ansible/main.yml
-    galaxy_file: requirements.yml
-  - <<: *shell_provisioner_options
-    script: scripts/cleanup.sh
+    inline:
+      - addgroup sudo-nopasswd
+      - adduser {{ user `ssh_username` }} sudo-nopasswd
+      - |-
+          echo '%sudo-nopasswd ALL = (ALL:ALL) NOPASSWD: ALL' > /etc/sudoers.d/sudo-nopasswd
+      - chmod 0440 /etc/sudoers.d/sudo-nopasswd

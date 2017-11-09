@@ -2,3 +2,4 @@
 debian-921-amd64-netinst.json
 packer_cache
 stretch-example-preseed.txt
+.hide
