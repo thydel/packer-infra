@@ -34,10 +34,11 @@ _:
     &vmware_builder_options
     type: vmware-iso
     guest_os_type: debian8-64
-    # vm_name: packer-debian-921-amd64-netinst
+    # vm_name: packer + name
     vmx_remove_ethernet_interfaces: False
     vmx_data:
       cpuid.coresPerSocket: 1
+      # https://github.com/hashicorp/vagrant/issues/8095
       ethernet0.pciSlotNumber: 32
       memsize: 1024
       numvcpus: 1
@@ -50,23 +51,23 @@ _:
   
 variables:
 
-  name: debian-921-amd64-netinst
+  name: _name
   domain: ''
 
-  iso_file: debian-9.2.1-amd64-netinst.iso
-  iso_remote_path: https://cdimage.debian.org/debian-cd/current/amd64/iso-cd/
-  iso_local_path: /data/iso
+  iso_file: _iso_file
+  iso_remote_path: _iso_remote_path
+  iso_local_path: _iso_local_path
   iso_checksum_type: sha256
-  iso_checksum_url: https://cdimage.debian.org/debian-cd/current/amd64/iso-cd/SHA256SUMS
+  iso_checksum_url: _iso_checksum_url
 
   http_directory: .
-  preseed_file: debian-921-amd64-netinst.preseed
+  preseed_file: _preseed_file
 
-  ssh_username: debian
-  ssh_password: packer
+  ssh_username: _ssh_username
+  ssh_password: _ssh_password
   disk_size: '16384'
 
-  output_directory: /data/packer
+  output_directory: _output_directory
   
 builders:
   - <<: *vmware_builder_options

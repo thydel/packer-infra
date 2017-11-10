@@ -1,0 +1,7 @@
+#include debian-921-amd64-netinst.gpp
+#include debian-921-amd64-netinst.in.yml
+
+#mode comment "//" "\n"
+// Local Variables:
+// mode: c
+// End:

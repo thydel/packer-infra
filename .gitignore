@@ -1,5 +1,10 @@
 *~
-debian-921-amd64-netinst.json
-packer_cache
-stretch-example-preseed.txt
 .hide
+
+packer_cache
+
+stretch-example-preseed.txt
+
+debian-921-amd64-netinst.json
+debian-921-amd64-netinst.yml
+debian-921-amd64-netinst.preseed

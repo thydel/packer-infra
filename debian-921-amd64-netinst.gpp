@@ -1,0 +1,25 @@
+#mode quote
+#mode string qqq "'" "'"
+#mode comment "\n//" "\n"
+//
+#define _name debian-921-amd64-netinst
+//
+#define _iso_file debian-9.2.1-amd64-netinst.iso
+#define _iso_remote_path 'https://cdimage.debian.org/debian-cd/current/amd64/iso-cd'
+#define _iso_checksum_url _iso_remote_path/SHA256SUMS
+//
+#define _preseed_file _name.preseed
+//
+#define _user_fullname Debian User
+#define _ssh_username debian
+#define _ssh_password packer
+//
+#define _local_store /data
+#define _iso_local_path _local_store/iso
+#define _output_directory _local_store/packer
+//
+// Local Variables:
+// mode: c
+// End:
+#mode nostring
+#mode nocomment
