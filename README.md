@@ -29,3 +29,23 @@ Starting from
 
 Try to make a simple `debian9` build for `vmware`
 
+# First step using multi recipe for partitioning
+
+- We want too keep a separate `root`, `var`, `tmp` and `home`
+- But auto partitioning give to many space to `home`
+- Then we want to make the minimal changes to the std multi recipe
+- Which is rather difficult to find as [partman-auto][] because
+  `apt-file` wont find `debian-installer` related packages
+
+[partman-auto]: https://packages.debian.org/stretch/amd64/partman-auto "packages.debian.org"
+
+# Second step altering std multi recipe
+
+Starting from `lib/partman/recipes/80multi` in [partman-auto][] and
+taking advices from [Understanding partman-auto/expert_recipe][] and
+[Dynamic disk partitioning with Debian preseed][]
+
+[Understanding partman-auto/expert_recipe]:
+	https://www.bishnet.net/tim/blog/2015/01/29/understanding-partman-autoexpert_recipe/ "www.bishnet.net"
+
+[Dynamic disk partitioning with Debian preseed]: https://www.claudioborges.org/?p=733 "www.claudioborges.org"

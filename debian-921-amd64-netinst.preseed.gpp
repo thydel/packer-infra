@@ -1,5 +1,8 @@
+#mode quote
+
 #include debian-921-amd64-netinst.gpp
 #include debian-921-amd64-netinst.in.preseed
+#include debian-921-amd64-netinst.part.preseed
 
 #mode comment "//" "\n"
 // Local Variables:

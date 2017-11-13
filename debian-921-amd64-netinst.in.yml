@@ -51,7 +51,7 @@ _:
   
 variables:
 
-  name: _name
+  name: _vm_name
   domain: ''
 
   iso_file: _iso_file
