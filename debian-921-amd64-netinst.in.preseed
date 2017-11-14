@@ -16,15 +16,14 @@ d-i mirror/http/proxy string
 d-i passwd/root-login boolean false
 d-i passwd/user-fullname string _user_fullname
 d-i passwd/username string _ssh_username
-d-i passwd/user-password password _ssh_password
-d-i passwd/user-password-again password _ssh_password
+#d-i passwd/user-password password _ssh_password
+#d-i passwd/user-password-again password _ssh_password
+d-i passwd/user-password-crypted password _PACKER_DEBIAN_PASSWD_CRYPTED
 
 d-i clock-setup/utc boolean true
 d-i clock-setup/ntp boolean true
 
 d-i time/zone string Europe/Paris
-
-
 
 d-i apt-setup/non-free boolean true
 d-i apt-setup/contrib boolean true
@@ -41,3 +40,7 @@ d-i finish-install/reboot_in_progress note
 popularity-contest popularity-contest/participate boolean false
 tasksel tasksel/first multiselect standard, ssh-server
 apt-cdrom-setup apt-setup/cdrom/set-first boolean false
+
+# Local Variables:
+# mode: conf
+# End:

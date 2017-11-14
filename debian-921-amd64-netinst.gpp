@@ -8,15 +8,16 @@
 #define _iso_file debian-9.2.1-amd64-netinst.iso
 #mode string qqq "'" "'"
 #define _iso_remote_path 'https://cdimage.debian.org/debian-cd/current/amd64/iso-cd'
+#mode string SSS "'" "'"
 #define _iso_checksum_url _iso_remote_path/SHA256SUMS
 //
 #define _preseed_file _name.preseed
 //
 #define _user_fullname Debian User
 #define _ssh_username debian
-#define _ssh_password packer
+#define _ssh_password '{{ env `PACKER_DEBIAN_PASSWD` }}'
+#define _ssh_password_crypted _PACKER_DEBIAN_PASSWD_CRYPTED
 //
-#mode string SSS "'" "'"
 #define _local_store {{ env `HOME` }}
 #define _iso_local_path '_local_store/iso'
 #define _output_directory '_local_store/packer'

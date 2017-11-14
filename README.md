@@ -49,3 +49,9 @@ taking advices from [Understanding partman-auto/expert_recipe][] and
 	https://www.bishnet.net/tim/blog/2015/01/29/understanding-partman-autoexpert_recipe/ "www.bishnet.net"
 
 [Dynamic disk partitioning with Debian preseed]: https://www.claudioborges.org/?p=733 "www.claudioborges.org"
+
+# Log
+
+```
+make main
+```

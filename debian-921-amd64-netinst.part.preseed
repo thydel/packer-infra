@@ -39,7 +39,7 @@ d-i partman-auto/expert_recipe string \
     	$default_filesystem{ } \
     	mountpoint{ /var } . \
     \
-    100% 512 200% linux-swap \
+    2000 2000 2000 linux-swap \
     	$lvmok{ } \
     	$reusemethod{ } \
     	method{ swap } \
@@ -61,9 +61,9 @@ d-i partman-auto/expert_recipe string \
     	$default_filesystem{ } \
     	mountpoint{ /home } . \
     \
-    1000 10000 -1 $default_filesystem \
+    1000 1 -1 $default_filesystem \
     	$lvmok{ } \
     	$default_filesystem{ } \
 	lv_name{ delete_me } .
 
-d-i preseed/late_command string lvremove -f /dev/_vm_name-vg/delete_me > /dev/null 2>&1
+d-i preseed/late_command string lvremove -f packer-_vm_name-vg/delete_me > /dev/null 2>&1
