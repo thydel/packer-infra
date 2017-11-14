@@ -28,7 +28,7 @@ _:
     ssh_password: '{{ user `ssh_password` }}'
     ssh_username: '{{ user `ssh_username` }}'
     ssh_port: 22
-    ssh_timeout: *ssh_timeout_dbg
+    ssh_timeout: *ssh_timeout_std
 
   -
     &vmware_builder_options
@@ -46,8 +46,8 @@ _:
   -
     &vnc_options
     vnc_disable_password: True
-    vnc_port_min: 5959
-    vnc_port_max: 5959
+    vnc_port_min: '{{ user `vnc_port_min` }}'
+    vnc_port_max: '{{ user `vnc_port_max` }}'
   
 variables:
 
@@ -65,7 +65,10 @@ variables:
 
   ssh_username: _ssh_username
   ssh_password: _ssh_password
-  disk_size: '16384'
+  disk_size: '_disk_size'
+
+  vnc_port_min: '_vnc_port_min'
+  vnc_port_max: '_vnc_port_max'
 
   output_directory: _output_directory
   
