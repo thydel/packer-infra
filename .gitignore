@@ -5,6 +5,7 @@ tmp
 packer_cache
 
 stretch-example-preseed.txt
+partman-auto_137_amd64.udeb
 partman-auto_137_amd64-80multi
 
 debian-921-amd64-netinst.json
