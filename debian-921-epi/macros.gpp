@@ -1,0 +1,19 @@
+#mode quote
+#mode comment "\n//" "\n"
+//
+#define _name _NAME
+#define _vm_name _VM_NAME
+//
+#define _ssh_username _SSH_USERNAME 
+#define _ssh_password '{{ env `PACKER_DEBIAN_PASSWD` }}'
+//
+#define _output_directory '{{ env `OUTPUT_DIRECTORY` }}'
+#define _source_path  '{{ env `OUTPUT_DIRECTORY` }}/_SOURCE'
+//
+#define _vnc_port_min _VNC_PORT
+#define _vnc_port_max _VNC_PORT
+//
+// Local Variables:
+// mode: c
+// End:
+#mode nocomment

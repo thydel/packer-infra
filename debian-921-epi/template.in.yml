@@ -1,0 +1,62 @@
+---
+
+_:
+  -
+    &shell_provisioner_options
+    type: shell
+    execute_command: echo '{{user `ssh_password`}}' | {{ .Vars }} sudo -ES '{{ .Path }}'
+
+  -
+    &communicator_options
+    ssh_password: '{{ user `ssh_password` }}'
+    ssh_username: '{{ user `ssh_username` }}'
+    ssh_timeout: 2m
+
+  -
+    &generic_builder_options
+    headless: True
+    output_directory: '{{ user `output_directory` }}/{{ user `name` }}'
+    shutdown_command: echo '{{ user `ssh_password` }}' | sudo -S poweroff
+
+  -
+    &vmware_builder_options
+    type: vmware-vmx
+    source_path: '{{ user `source_path` }}'
+
+    vmx_remove_ethernet_interfaces: True
+    vmx_data:
+      cpuid.coresPerSocket: 1
+      ethernet0.pciSlotNumber: 32
+      memsize: 1024
+      numvcpus: 1
+
+  -
+    &vnc_options
+    vnc_disable_password: True
+    vnc_port_min: '{{ user `vnc_port_min` }}'
+    vnc_port_max: '{{ user `vnc_port_max` }}'
+  
+variables:
+
+  name: _vm_name
+  source_path: _source_path
+
+  ssh_username: _ssh_username
+  ssh_password: _ssh_password
+
+  vnc_port_min: '_vnc_port_min'
+  vnc_port_max: '_vnc_port_max'
+
+  output_directory: _output_directory
+  
+builders:
+  - name: '{{ user `name` }}'
+    <<: *generic_builder_options
+    <<: *vmware_builder_options
+    <<: *communicator_options
+    <<: *vnc_options
+    
+provisioners:
+  - <<: *shell_provisioner_options
+    inline:
+      - addgroup toto

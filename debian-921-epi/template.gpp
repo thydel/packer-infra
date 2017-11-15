@@ -1,0 +1,7 @@
+#include macros.gpp
+#include template.in.yml
+
+#mode comment "//" "\n"
+// Local Variables:
+// mode: c
+// End:
