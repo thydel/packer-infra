@@ -14,6 +14,8 @@ _:
     - 'url=http://{{ .HTTPIP }}:{{ .HTTPPort }}/{{ user `preseed_file` }} '
     - 'hostname={{ .Name }} '
     - 'domain={{ user `domain` }} '
+    # https://github.com/minishift/minishift-centos-iso/issues/67
+    - 'biosdevname=0 net.ifnames=0 '
     - '<enter>'
   -
     &boot_options
