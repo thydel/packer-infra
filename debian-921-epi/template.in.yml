@@ -21,14 +21,17 @@ _:
   -
     &vmware_builder_options
     type: vmware-vmx
-    source_path: '{{ user `source_path` }}'
+    source_path: '{{ user `vmx_source_path` }}'
 
     vmx_remove_ethernet_interfaces: True
-    vmx_data:
-      cpuid.coresPerSocket: 1
-      ethernet0.pciSlotNumber: 32
-      memsize: 1024
-      numvcpus: 1
+
+  -
+    &virtualbox_builder_options
+    type: virtualbox-ovf
+    source_path: '{{ user `ovf_source_path` }}'
+    import_flags: [ --ostype, Linux_64 ] # won't boot if not used
+    vm_name: 'packer-{{ user `vm_name` }}' # avoid timestamp in vm file name
+    format: ova
 
   -
     &vnc_options
@@ -36,10 +39,16 @@ _:
     vnc_port_min: '{{ user `vnc_port_min` }}'
     vnc_port_max: '{{ user `vnc_port_max` }}'
   
+  -
+    &vrdp_options
+    vrdp_port_min: '{{ user `vrdp_port_min` }}'
+    vrdp_port_max: '{{ user `vrdp_port_max` }}'
+  
 variables:
 
   name: _vm_name
-  source_path: _source_path
+  vmx_source_path: _vmx_source_path
+  ovf_source_path: _ovf_source_path
 
   ssh_username: _ssh_username
   ssh_password: _ssh_password
@@ -47,14 +56,23 @@ variables:
   vnc_port_min: '_vnc_port_min'
   vnc_port_max: '_vnc_port_max'
 
+  vrdp_port_min: '_vrdp_port_min'
+  vrdp_port_max: '_vrdp_port_max'
+
   output_directory: _output_directory
+  vm_name: _vm_name
   
 builders:
-  - name: '{{ user `name` }}'
+  - name: '{{ user `name` }}-vmware'
     <<: *generic_builder_options
     <<: *vmware_builder_options
     <<: *communicator_options
     <<: *vnc_options
+  - name: '{{ user `name` }}'
+    <<: *generic_builder_options
+    <<: *virtualbox_builder_options
+    <<: *communicator_options
+    <<: *vrdp_options
     
 provisioners:
   - <<: *shell_provisioner_options

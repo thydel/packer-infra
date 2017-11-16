@@ -8,10 +8,13 @@
 #define _ssh_password '{{ env `PACKER_DEBIAN_PASSWD` }}'
 //
 #define _output_directory '{{ env `OUTPUT_DIRECTORY` }}'
-#define _source_path  '{{ env `OUTPUT_DIRECTORY` }}/_SOURCE'
+#define _vmx_source_path  '{{ env `OUTPUT_DIRECTORY` }}/_VMX_SOURCE'
+#define _ovf_source_path  '{{ env `OUTPUT_DIRECTORY` }}/_OVF_SOURCE'
 //
 #define _vnc_port_min _VNC_PORT
 #define _vnc_port_max _VNC_PORT
+#define _vrdp_port_min _VRDP_PORT
+#define _vrdp_port_max _VRDP_PORT
 //
 // Local Variables:
 // mode: c

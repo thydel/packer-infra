@@ -7,3 +7,6 @@ And failed because (See [packer/issues/2395][])
 > Workstation and Fusion / Fusion Pro.
 
 [packer/issues/2395]: https://github.com/hashicorp/packer/issues/2395 "github.com"
+
+Thus try to clone our base image using virtualbox instead of vmware
+
