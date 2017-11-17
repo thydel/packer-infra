@@ -94,7 +94,8 @@ builders:
 provisioners:
   - <<: *shell_provisioner_options
     inline:
-      - addgroup sudo-nopasswd
+      # avoid incrementing upon first user
+      - addgroup --system sudo-nopasswd
       - adduser {{ user `ssh_username` }} sudo-nopasswd
       - |-
           echo '%sudo-nopasswd ALL = (ALL:ALL) NOPASSWD: ALL' > /etc/sudoers.d/sudo-nopasswd
