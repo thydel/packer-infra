@@ -43,7 +43,7 @@ endif
 conf: $(conf)
 build: $(build)
 main: conf build
-run: main; vmplayer $(build)
+run: main; @echo vmplayer $(build)
 vnc:; @echo xtigervncviewer localhost:$(VNC_PORT)
 .PHONY: main conf build run
 

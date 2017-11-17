@@ -54,11 +54,14 @@ taking advices from [Understanding partman-auto/expert_recipe][] and
 
 ```
 make clean              # remove generated template and preseed
-make conf               # genetare template and preseed
+make conf               # generate template and preseed
 make build              # if no image yet
 make force build        # build --force
 make build FULL=1       # build if template or preseed changed
 make force build FULL=1 # build --force if template or preseed changed
+
+make vnc                # show how to run vnd
+make run                # show how to run vm
 
 make example-preseed    # get stretch example preseed file 
 make recipes            # get partman-auto multi_scheme file

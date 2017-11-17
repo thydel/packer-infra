@@ -18,3 +18,21 @@ different name than the one computed by `VBoxManage` used by
 
 This also require to add `import_flags: [ --ostype, Linux_64 ]` to
 avoid the imported image to hang after boot.
+
+# Log
+
+```
+make clean              # remove generated files
+make conf               # generate template
+make build              # if no image yet
+	                    # convert from vmx to ova and back to use virtualbox instead of vmplayer
+make force build        # build --force
+make build FULL=1       # build if template changed
+make force build FULL=1 # build --force if template changed
+
+make vnc                # show how to run vnd
+make run                # show how to run vm
+make ip                 # show ip of running vm
+make password           # use pass to generate vm dedicated user password
+make ansible            # generate ansible host file to run local ansible play
+```

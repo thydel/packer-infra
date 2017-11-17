@@ -83,7 +83,7 @@ vbox: import += vboxmanage import $(clone_ovf) --vsys 0 --ostype Linux_64 --vmna
 vbox: import += vboxmanage setproperty machinefolder "$(dir)";
 vbox: $(clone_ovf); $(import)
 
-run: $(build_vmx); vmplayer $<
+run: $(build_vmx); @echo vmplayer $<
 
 ip:; vmrun getGuestIPAddress $(build_vmx)
 ansible/hosts.yml: ansible/hosts.in.yml; gpp -D_VM_NAME=$(VM_NAME) -D_PACKER_VMX=$(build_vmx) $< > $@
