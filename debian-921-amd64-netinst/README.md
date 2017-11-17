@@ -53,5 +53,13 @@ taking advices from [Understanding partman-auto/expert_recipe][] and
 # Log
 
 ```
-make main
+make clean              # remove generated template and preseed
+make conf               # genetare template and preseed
+make build              # if no image yet
+make force build        # build --force
+make build FULL=1       # build if template or preseed changed
+make force build FULL=1 # build --force if template or preseed changed
+
+make example-preseed    # get stretch example preseed file 
+make recipes            # get partman-auto multi_scheme file
 ```

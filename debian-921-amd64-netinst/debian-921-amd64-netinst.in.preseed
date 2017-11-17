@@ -16,7 +16,7 @@ d-i mirror/http/proxy string
 d-i passwd/root-login boolean false
 d-i passwd/user-fullname string _user_fullname
 d-i passwd/username string _ssh_username
-d-i passwd/user-uid string 1099
+d-i passwd/user-uid string 999
 d-i passwd/user-password-crypted password _PACKER_DEBIAN_PASSWD_CRYPTED
 
 d-i clock-setup/utc boolean true

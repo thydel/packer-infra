@@ -34,10 +34,10 @@ $(sort $($~.yml.dep) $($~.preseed.dep)): Makefile;
 
 conf := $~.json $~.preseed
 build := ~/packer/$~-$(STEP)/packer-$~-$(STEP).vmx
-ifdef NEVER
-$(build): $(conf); packer build $<
+ifdef FULL
+$(build): $(conf); packer build $(FORCE) $<
 else
-$(build):; packer build $~.json
+$(build):; packer build $(FORCE) $~.json
 endif
 
 conf: $(conf)
@@ -50,7 +50,8 @@ vnc:; @echo xtigervncviewer localhost:$(VNC_PORT)
 clean:; rm $~.json $~.yml $~.preseed
 
 partman-auto := http://ftp.fr.debian.org/debian/pool/main/p/partman-auto
-tmp/partman-auto_137_amd64.udeb:; (cd $(@D); curl -O $(partman-auto)/$(@F))
+tmp/partman-auto_137_amd64.udeb: tmp/.stone; (cd $(@D); curl -O $(partman-auto)/$(@F))
+tmp/.stone:; mkdir -p $(@D); touch $@
 tmp/partman-auto_137_amd64: tmp/partman-auto_137_amd64.udeb; dpkg -x $< $@
 partman-auto_137_amd64-80multi: tmp/partman-auto_137_amd64; cp $</lib/partman/recipes/80multi $@
 recipes: partman-auto_137_amd64-80multi
@@ -60,3 +61,10 @@ stretch-example-preseed.txt := https://www.debian.org/releases/stretch/example-p
 stretch-example-preseed.txt:; curl $($@) > $@
 example-preseed: stretch-example-preseed.txt
 .PHONY: example-preseed
+
+FORCE :=
+force := FORCE := -force
+
+vartar := force
+
+$(vartar):; @: $(eval $($@))
