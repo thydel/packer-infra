@@ -77,4 +77,7 @@ builders:
 provisioners:
   - <<: *shell_provisioner_options
     inline:
-      - addgroup toto
+      - apt -y install open-vm-tools
+      - apt -y update && apt-get -y upgrade
+      - apt -y install python-pip python-dev
+      - pip install ansible

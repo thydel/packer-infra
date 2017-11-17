@@ -1,0 +1,27 @@
+---
+
+- hosts: all
+  become: True
+
+  tasks:
+
+    - vars:
+        user:
+          login: thy
+          name: &name Thierry Delamare
+          github: thyepi
+
+      block:
+
+      - user:
+          name: &login '{{ user.login }}'
+          comment: *name
+          groups: [ adm, sudo-nopasswd ]
+          append: True
+          update_password: on_create
+          password: |-
+            {{ lookup('passwordstore', 'packer/' + inventory_hostname + '/' + user.login) }}
+
+      - authorized_key:
+          user: *login
+          key: https://github.com/{{ user.github }}.keys

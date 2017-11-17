@@ -57,7 +57,7 @@ export PACKER_LOG := 1
 export PACKER_LOG_PATH := tmp/$(VM_NAME).txt
 
 build_ova := $(packer_dir)/$(call ova_name, $(VM_NAME))
-ifdef NEVER
+ifdef FULL
 $(build_ova): $(conf) $(clone_ovf); packer build $(FORCE) -only=$(VM_NAME) $<
 else
 $(build_ova): $(clone_ovf); packer build $(FORCE) -only=$(VM_NAME) $(conf)
@@ -83,12 +83,21 @@ vbox: import += vboxmanage import $(clone_ovf) --vsys 0 --ostype Linux_64 --vmna
 vbox: import += vboxmanage setproperty machinefolder "$(dir)";
 vbox: $(clone_ovf); $(import)
 
-run: $(build); vmplayer $<
+run: $(build_vmx); vmplayer $<
+
+ip:; vmrun getGuestIPAddress $(build_vmx)
+ansible/hosts.yml: ansible/hosts.in.yml; gpp -D_VM_NAME=$(VM_NAME) -D_PACKER_VMX=$(build_vmx) $< > $@
+ansible: ansible/hosts.yml;
+
+password-store := $(HOME)/.password-store
+password := $(password-store)/packer/$(VM_NAME)
+$(password)/thy.gpg: $(password-store)/%.gpg :; pass generate -n $* 16
+password: $(password)/thy.gpg;
 
 main: conf build;
 vnc:; @echo xtigervncviewer localhost:$(VNC_PORT)
 
-.PHONY: conf build_ova build_vmx build ovf ova run main vnc
+.PHONY: conf build_ova build_vmx build ovf ova run main vnc ip ansible
 
 FORCE :=
 force := FORCE := -force

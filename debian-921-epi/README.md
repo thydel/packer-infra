@@ -8,5 +8,13 @@ And failed because (See [packer/issues/2395][])
 
 [packer/issues/2395]: https://github.com/hashicorp/packer/issues/2395 "github.com"
 
-Thus try to clone our base image using virtualbox instead of vmware
+Thus try to clone our base image using virtualbox instead of vmware.
 
+This require to change the `boot_command` of base template to add
+`biosdevname=0 net.ifnames=0` because the `vmware-iso` builder (using
+`vmplayer`) results in an image where first ethernet device has a
+different name than the one computed by `VBoxManage` used by
+`virtualbox-ovf` builder.
+
+This also require to add `import_flags: [ --ostype, Linux_64 ]` to
+avoid the imported image to hang after boot.

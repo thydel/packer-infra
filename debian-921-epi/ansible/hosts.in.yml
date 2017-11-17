@@ -1,0 +1,10 @@
+---
+
+all:
+  hosts:
+    _VM_NAME:
+      ansible_ssh_host: |
+        {{ lookup('pipe', 'vmrun getGuestIPAddress _PACKER_VMX') }}
+      ansible_ssh_user: debian
+      ansible_ssh_pass: |
+        {{ lookup('env', 'PACKER_DEBIAN_PASSWD') }}
