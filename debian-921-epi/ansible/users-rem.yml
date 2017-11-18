@@ -2,8 +2,13 @@
 
 - hosts: all
   become: True
+  gather_facts: False
 
   tasks:
+
+    - assert:
+        that: |-
+          lookup('env', 'PACKER_DEBIAN_PASSWD') != ''
 
     - vars:
         user:
@@ -16,8 +21,9 @@
       - user:
           name: &login '{{ user.login }}'
           comment: *name
-          groups: [ adm, sudo-nopasswd ]
+          groups: [ adm ]
           append: True
+          shell: /bin/bash
           update_password: on_create
           password: |-
             {{ lookup('passwordstore', 'packer/' + inventory_hostname + '/' + user.login) }}
