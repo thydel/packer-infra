@@ -70,6 +70,15 @@ build_vmx: $(build_vmx)
 
 build: build_vmx
 
+push.pass := ds net vc/user vc/node vc/cluster
+$(strip $(foreach _, $(push.pass), $(eval push: $(notdir $_) != pass packer/$(VM_NAME)/$_)))
+export VC_PASS != pass packer/$(VM_NAME)/vc/pass
+push: push := ovftool --X:logToConsole=True --X:logLevel="verbose" --acceptAllEulas
+push: push +=         -ds=$(ds) -dm=thin --net:nat=$(net) $(build_vmx)
+push: push +=         "vi://$(user):$$VC_PASS@$(node)/$(cluster)"
+push: $(build_vmx); $($@)
+.PHONY: push
+
 # ineffective
 # export VBOX_USER_HOME := $(OUTPUT_DIRECTORY)
 vbox-reset:; vboxmanage setproperty machinefolder ~/"VirtualBox VMs"
