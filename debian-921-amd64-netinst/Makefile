@@ -47,20 +47,22 @@ run: main; @echo vmplayer $(build)
 vnc:; @echo xtigervncviewer localhost:$(VNC_PORT)
 .PHONY: main conf build run
 
-clean:; rm $~.json $~.yml $~.preseed
-
 partman-auto := http://ftp.fr.debian.org/debian/pool/main/p/partman-auto
 tmp/partman-auto_137_amd64.udeb: tmp/.stone; (cd $(@D); curl -O $(partman-auto)/$(@F))
 tmp/.stone:; mkdir -p $(@D); touch $@
 tmp/partman-auto_137_amd64: tmp/partman-auto_137_amd64.udeb; dpkg -x $< $@
 partman-auto_137_amd64-80multi: tmp/partman-auto_137_amd64; cp $</lib/partman/recipes/80multi $@
-recipes: partman-auto_137_amd64-80multi
+recipes := partman-auto_137_amd64-80multi
+recipes: $(recipes)
 .PHONY: recipes
 
 stretch-example-preseed.txt := https://www.debian.org/releases/stretch/example-preseed.txt
 stretch-example-preseed.txt:; curl $($@) > $@
-example-preseed: stretch-example-preseed.txt
+example-preseed := example-preseed
+example-preseed: $(example-preseed)
 .PHONY: example-preseed
+
+clean:; rm -f $~.json $~.yml $~.preseed $(recipes) $(example-preseed)
 
 FORCE :=
 force := FORCE := -force
